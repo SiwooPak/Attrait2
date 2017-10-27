@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE  tiles-definitions PUBLIC 
+    "-//Aapche Software Foundation//DTD Tiles Configuration 2.0//EN" 
+    "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+	<!-- user tiles설정 & home -->
+
+	<definition name="main" template="/WEB-INF/views/template/template.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/template/top.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/template/foot.jsp" />
+	</definition>
+
+	<definition name="/sell/sellBuyListR" extends="main">
+		<put-attribute name="title" value="Sell_Buy List"></put-attribute>
+		<put-attribute name="body"
+			value="/WEB-INF/views/sell/sellBuyListR.jsp" />
+	</definition>
+
+	<definition name="/sell/sellConfirmR" extends="main">
+		<put-attribute name="title" value="Sell Confirm"></put-attribute>
+		<put-attribute name="body"
+			value="/WEB-INF/views/sell/sellConfirmR.jsp" />
+	</definition>
+
+	<definition name="/sell/sellListR" extends="main">
+		<put-attribute name="title" value="Product Read"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/sell/sellListR.jsp" />
+	</definition>
+
+</tiles-definitions> 

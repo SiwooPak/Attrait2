@@ -1,0 +1,266 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var ="context"><%=request.getContextPath()%></c:set>
+<!DOCTYPE html>
+<html>
+<head>
+		<meta name="description" content="userC.jsp">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Insert title here</title>
+	<link href="${context}/common/css/bootstrap.min.css" rel="stylesheet">
+	<link href="${context}/common/css/bootstrap-theme.css" rel="stylesheet">
+	<link href="${context}/common/css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
+	<link href="${context}/common/css/plugins/social-buttons.css" rel="stylesheet">
+	<link href="${context}/common/font-awesome-4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css" rel="stylesheet" >
+		<link href="${context}/common/css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="${context}/common/css/process.css" rel="stylesheet">
+
+	<script src="${context}/common/js/jquery-1.9.1.js"></script>
+	<script src="${context}/common/js/jquery.form.js"></script>
+    <script src="${context}/common/js/plugins/metisMenu/metisMenu.min.js"></script>
+
+	<script src="${context}/common/js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="${context}/common/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+    <script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+	<script type="text/javascript">
+
+	var dong;
+	var imageFolder;
+
+	$(document).ready(function(){
+ 		//$('#dataTables-example').dataTable();
+		fn_init();
+
+		imageFolder = "userImg";
+
+		$( "#birth" ).datepicker({
+	    	dateFormat: 'yy-mm-dd',
+	    	changeMonth: true,
+	        changeYear: true,
+	        yearRange: "1980:2015"
+	    });
+	});
+
+	function fn_save(){
+		if(!fn_validation()) return;
+		if($("#flag").val() == "false"){
+			alert("이미 사용중인 ID입니다");
+			$("id").focus();
+			return;
+		}
+
+
+		$("#phoneNum").val($("#phone1").val() + "-" + $("#phone2").val());
+		
+ 		$("#joinFrm").submit();
+	}
+
+	function idCheck(){
+		var id = $("#id").val();
+		var access = $("#message");
+		$.ajax({
+			url:"${context}/user/idCheck?id=" + id,
+			success:function(result){
+				result2 = result.replace(/"/gi, "");
+				var splResult = result2.split("@");
+				access.html(splResult[0]);
+				$("#flag").val(splResult[1]);
+			}
+		});
+	}
+
+	function fn_upload(){
+		$("#ajaxform").ajaxSubmit({
+	        type: "POST",
+	        dataType: 'text',
+	        url: $("#ajaxform").attr("action"),
+	        data: $("#ajaxform").serialize(),
+	        success: function (data) {
+	        	data2 = data.replace(/"/gi, "");
+	        	var imageUrl = "${context}/userImg/" + data2;
+	        	$("#pic").attr("src", imageUrl);
+	        	$("#userImage").val(data2);
+	        },
+	        error: function (xhr, status, error) {
+	            alert(error);
+	        }
+	    });
+	}
+
+</script>
+
+
+<!-- daum zipcode api -->
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script>
+    function sample6_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var fullAddr = ''; // 최종 주소 변수
+                var extraAddr = ''; // 조합형 주소 변수
+
+                // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    fullAddr = data.roadAddress;
+
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    fullAddr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
+                if(data.userSelectedType === 'R'){
+                    //법정동명이 있을 경우 추가한다.
+                    if(data.bname !== ''){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있을 경우 추가한다.
+                    if(data.buildingName !== ''){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+                    fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('sample6_postcode').value = data.zonecode; //5자리 새우편번호 사용
+                document.getElementById('sample6_address').value = fullAddr;
+
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById('sample6_address2').focus();
+            }
+        }).open();
+    }
+</script>
+</head>
+<body>
+<!-- content start -->
+	<div id="jumbotron" class="container">
+		<div class="jumbotron jumbotron-info" style="background-color: lightgray;">
+			<h1><font color="black"><strong>회원가입</strong>&nbsp;<span class="glyphicon glyphicon glyphicon-pencil"></span></font></h1>
+			<p>HS STATIONERY 회원가입을 진심으로 환영합니다.</p>
+		</div>
+	</div>
+	<div class="container">
+	<form id="joinFrm" method="post" action="${context}/user/createUser" role="form">
+		<div class="form-horizontal">
+			<hr/>
+			<div class="form-group" style="margin-top: 5%;">
+				<label for="id" class="control-label col-md-2"><b>아이디</b></label>
+				<div class="col-md-4">
+					<input class="form-control" type="text" name="id" id="id" required="required" autofocus="autofocus" onkeyup="idCheck();"/>
+				</div>
+				<p id="message"></p>
+			</div>
+
+			<div class="form-group">
+				<label for="pw" class="control-label col-md-2"><b>비밀번호</b></label>
+				<div class="col-md-4">
+					<input class="form-control" type="password" name="pw" id="pw" required="required"/>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="email" class="control-label col-md-2"><b>이메일</b></label>
+				<div class="col-md-4">
+					<input class="form-control" type="email" name="email" id="email" required="required"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="name" class="control-label col-md-2"><b>성명</b></label>
+				<div class="col-md-6">
+					<input class="form-control" type="text" id="name" name="name" autofocus="autofocus" required="required"/>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="birth" class="control-label col-md-2"><b>생년월일</b></label>
+				<div class="col-md-6">
+					<input class="form-control" type="text" id="birth" name="birth" required="required" maxlength="10"/>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="phoneCd" class="control-label col-md-2"><b>연락처</b></label>
+				<div class="col-md-2">
+		        	<select class="form-control" id="phoneCd" name="phoneCd" required="required">
+						<c:forEach items="${dsCode1}" var="code1">
+							<option value="${code1.commCd}">${code1.commCdNm}</option>
+						</c:forEach>
+		     		</select>
+	     		</div>
+				<div class="col-md-2">
+					<input class="form-control" type="text" id="phone1" maxlength="4" required="required" onkeydown="return fn_showKeyCode(event)"/>
+				</div>
+				<div class="col-md-2">
+					<input class="form-control" type="text" id="phone2" maxlength="4" required="required" onkeydown="return fn_showKeyCode(event)"/>
+				</div>
+				<input type="hidden" id="phoneNum" name="phoneNum">
+			</div>
+
+			<div class="form-group">
+				<label for="postnum1" class="control-label col-md-2"><b>주소</b></label>
+				<div class="col-md-2">
+					<input class="form-control" type="text" id="sample6_postcode" disabled="disabled" required="required"/>
+	     		</div>
+				<span class="col-md-1">
+					<button type="button" class="btn btn-info" data-toggle="modal" data-target="#searchPost" onclick="sample6_execDaumPostcode()"><b>주소검색</b></button>
+				</span>
+				<input type="hidden" id="postNum" name="postNum">
+			</div>
+
+			<div class="form-group">
+				<label for="address1" class="control-label col-md-2"><b>상세주소</b></label>
+				<div class="col-md-6">
+					<input class="form-control" type="text" id="sample6_address" name="address1" disabled="disabled" required="required"/>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="address2" class="control-label col-md-2"></label>
+				<div class="col-md-6">
+					<input class="form-control" type="text" id="sample6_address2"/>
+				</div>
+				<input type="hidden" id="address" name="address2">
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-md-2"><b>사진</b></label>
+				<img id="pic" style="margin-left: 15px;" height="180px" width="150px" src="${context}/backgroundImage/defaultpic.png"><br/>
+				<div class="col-md-6">
+					<input type="hidden" id="userImage" name="userImage" required="required">
+				</div>
+			</div>
+
+			<input type="hidden" id="flag" name="flag" value="false">
+		</div>
+	</form>
+	<form id="ajaxform" action="${context}/product/saveFile" method="post" enctype="multipart/form-data" role="form">
+		<div class="form-group">
+		<label class="control-label col-md-2"></label>
+			<div class="col-md-6">
+				<input class="form-control" type="file" id="imageFile" name="imageFile" onchange="fn_upload()"/>
+				<input type="hidden" id="imageFolder" name="imageFolder" value="userImg">
+			</div>
+		</div>
+		<br><br><br>
+		<div class="form-group">
+			<div class="col-md-offset-6 col-md-1">
+				<button type="button" class="btn btn-success" onclick="location.href='../product/goMain'">뒤로가기</button>
+			</div>
+			<div class="col-md-1">
+				<button class="btn btn-primary" type="button" name="btnSubmit" id="btnSubmit" onclick="fn_save()">등록하기</button>
+			</div>
+		</div>
+	</form>
+	</div>
+
+	<!-- content end -->
+</body>
+</html>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE  tiles-definitions PUBLIC 
+    "-//Aapche Software Foundation//DTD Tiles Configuration 2.0//EN" 
+    "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+	<!-- user tiles설정 & home -->
+
+	<definition name="main" template="/WEB-INF/views/template/template.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/template/top.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/template/foot.jsp" />
+	</definition>
+
+	<definition name="/user/idFind" extends="main">
+		<put-attribute name="title" value="ID Search"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/user/idFind.jsp" />
+	</definition>
+
+	<definition name="/user/login" extends="main">
+		<put-attribute name="title" value="Log_in"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/user/login.jsp" />
+	</definition>
+
+	<definition name="/user/pwFind" extends="main">
+		<put-attribute name="title" value="Password Search"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/user/pwFind.jsp" />
+	</definition>
+
+	<definition name="/user/userC" extends="main">
+		<put-attribute name="title" value="User "></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/user/userC.jsp" />
+	</definition>
+
+	<definition name="/user/userU" extends="main">
+		<put-attribute name="title" value="User "></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/user/userU.jsp" />
+	</definition>
+
+</tiles-definitions> 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   					  http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="cartDAO" class="www.model.cart.CartDAO" p:mybatis-ref="sqlSession" /> 
+	<bean id="codeDAO" class="www.model.code.CodeDAO" p:mybatis-ref="sqlSession" />
+	<bean id="markDAO" class="www.model.mark.MarkDAO" p:mybatis-ref="sqlSession" />
+	<bean id="productDAO" class="www.model.product.ProductDAO" p:mybatis-ref="sqlSession" />
+	<bean id="replyDAO" class="www.model.reply.ReplyDAO" p:mybatis-ref="sqlSession" />
+	<bean id="sellDAO" class="www.model.sell.SellDAO" p:mybatis-ref="sqlSession" />
+	<bean id="userDAO" class="www.model.sell.userDAO" p:mybatis-ref="sqlSession" />
+	
+	
+	<!-- oracle --> 	 
+	<bean id="dataSource" 
+		  destroy-method="close"
+		  class="org.apache.commons.dbcp.BasicDataSource" 
+	      p:driverClassName="oracle.jdbc.driver.OracleDriver" 
+		  p:url="jdbc:oracle:thin:@172.16.3.63:1521:XE" 
+	      p:username="soju"  
+	      p:password="1"  
+	/> 
+	
+	<!-- MySQL -->
+	<!-- 
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+
+		p:driverClassName="com.mysql.jdbc.Driver"
+		p:url="jdbc:mysql://localhost:3306/javadb?useUnicode=true&amp;characterEncoding=utf8"
+		p:username="siwoo" p:password="931002" p:maxActive="2" p:maxIdle="1" />
+	-->
+	
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="typeAliasesPackage" value="www.model" />
+		<property name="mapperLocations" value="classpath:mybatis/*.xml" />
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> 
+		<property name="dataSource" ref="dataSource"></property> 
+	</bean> 
+
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+
+</beans>
