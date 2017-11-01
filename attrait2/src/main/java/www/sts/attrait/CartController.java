@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import www.model.cart.CartService;
-import www.model.product.ProductService;
+import www.model.product.ProductService; 
 
 @Controller
 public class CartController {
