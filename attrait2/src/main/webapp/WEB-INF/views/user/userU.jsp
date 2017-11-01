@@ -64,10 +64,10 @@
 
 		$("#phoneCd").val('${dsUser.phoneCd}');
 
-		$("#postNum").val(postNum);
+		$("#postNum").val('${dsUser.postNum}');
 
-		$("#address1").val('${dsUser.address1}');
-		$("#address2").val('${dsUser.address2}'); 
+		$("#address1").val(address1);
+		$("#address2").val(address2); 
 
 		$("#pic").attr("src", '${context}/userImg/' + userImage);
 		$("#userImage").val(userImage);
@@ -217,7 +217,7 @@
 			<div class="form-group">
 				<label for="postNum" class="control-label col-md-2"><b>주소</b></label>
 				<div class="col-md-2">
-					<input class="form-control" type="text" id="sample6_postcode" required="required" readonly/>
+					<input class="form-control" type="text" id="sample6_postcode" name="postNum" required="required" readonly/>
 	     		</div>
 				<span class="col-md-1">
 					<button type="button" class="btn btn-info" data-toggle="modal" data-target="#searchPost" onclick="sample6_execDaumPostcode()"><b>주소검색</b></button>
