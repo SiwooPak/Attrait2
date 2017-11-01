@@ -121,7 +121,24 @@
 			                         <tr>
 			                         	<td style="text-align: center; vertical-align: middle;">${dsSellList.SELL_CODE}</td>
 			                            <td style="text-align: center; vertical-align: middle;">
-										<img name="image" width="110px" height="110px" src="${context}/binderImg/${dsSellList.PRODUCT_IMAGE}" class="img-thumbnail">
+			                            <c:choose>
+			                            	<c:when test="${dsSellList.PRODUCT_CATEGORY_CD eq 'B'}">
+			                            		<img name="image" width="110px" height="110px" src="${context}/binderImg/${dsSellList.PRODUCT_IMAGE}" class="img-thumbnail">
+			                            	</c:when>
+			                            	<c:when test="${dsSellList.PRODUCT_CATEGORY_CD eq 'O'}">
+			                            		<img name="image" width="110px" height="110px" src="${context}/officeImg/${dsSellList.PRODUCT_IMAGE}" class="img-thumbnail">
+			                            	</c:when>
+			                            	<c:when test="${dsSellList.PRODUCT_CATEGORY_CD eq 'S'}">
+			                            		<img name="image" width="110px" height="110px" src="${context}/storageImg/${dsSellList.PRODUCT_IMAGE}" class="img-thumbnail">
+			                            	</c:when>
+			                            	<c:when test="${dsSellList.PRODUCT_CATEGORY_CD eq 'D'}">
+			                            		<img name="image" width="110px" height="110px" src="${context}/designImg/${dsSellList.PRODUCT_IMAGE}" class="img-thumbnail">
+			                            	</c:when>
+			                            	<c:otherwise>
+			                            		<img name="image" width="110px" height="110px" src="${context}/penImg/${dsSellList.PRODUCT_IMAGE}" class="img-thumbnail">
+			                            	</c:otherwise>
+			                            </c:choose>
+										<!-- 
 											<script type="text/javascript">
 											 	var productCategoryCd = '${dsSellList.PRODUCT_CATEGORY_CD}';
 
@@ -140,7 +157,7 @@
 
 												existFolder = path.split("/")[2];
 												$("img[name='image']").eq('${sellIdx.index}').attr("src", path.replace(existFolder, imageFolder));
-											</script>
+											</script> -->
 			                            </td>
 			                            <td style="text-align: center; vertical-align: middle;">${dsSellList.PRODUCT_NAME}</td>
 			                            <td style="text-align: center; vertical-align: middle;">${dsSellList.PRODUCT_UNIT_PRICE}원</td>
