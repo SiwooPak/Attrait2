@@ -8,21 +8,21 @@
 		<meta name="description" content="userU.jsp">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Insert title here</title>
-	<link href="${context}/css/bootstrap.min.css" rel="stylesheet">
-	<link href="${context}/css/bootstrap-theme.css" rel="stylesheet">
-	<link href="${context}/css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
-	<link href="${context}/css/plugins/social-buttons.css" rel="stylesheet">
-	<link href="${context}/font-awesome-4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="${context}/common/css/bootstrap.min.css" rel="stylesheet">
+	<link href="${context}/common/css/bootstrap-theme.css" rel="stylesheet">
+	<link href="${context}/common/css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
+	<link href="${context}/common/css/plugins/social-buttons.css" rel="stylesheet">
+	<link href="${context}/common/font-awesome-4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 	<link href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css" rel="stylesheet" >
-		<link href="${context}/css/plugins/dataTables.bootstrap.css" rel="stylesheet">
-    <link href="${context}/css/process.css" rel="stylesheet">
+		<link href="${context}/common/css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="${context}/common/css/process.css" rel="stylesheet">
 
-	<script src="${context}/js/jquery-1.9.1.js"></script>
-	<script src="${context}/js/jquery.form.js"></script>
-    <script src="${context}/js/plugins/metisMenu/metisMenu.min.js"></script>
+	<script src="${context}/common/js/jquery-1.9.1.js"></script>
+	<script src="${context}/common/js/jquery.form.js"></script>
+    <script src="${context}/common/js/plugins/metisMenu/metisMenu.min.js"></script>
 
-	<script src="${context}/js/plugins/dataTables/jquery.dataTables.js"></script>
-    <script src="${context}/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+	<script src="${context}/common/js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="${context}/common/js/plugins/dataTables/dataTables.bootstrap.js"></script>
 
     <script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
 	<script type="text/javascript">
@@ -39,13 +39,6 @@
 	        yearRange: "1980:2015"
 	    });
 
-		$("#dong").keydown(function (key){
-			if(key.keyCode == 13){
-				fn_postCheck();
-			}
-
-		});
-
 		//U페이지 해당
 		fn_setDetailInfo();
 	});
@@ -59,7 +52,7 @@
 		$("#birth").val('${dsUser.birth}');
 
 		var phoneArr = '${dsUser.phoneNum}'.split("-");
-		var postNumArr = '${dsUser.postNum}'.split("-");
+		var postNum = '${dsUser.postNum}';
 		var address1 = '${dsUser.address1}';
 		var address2 = '${dsUser.address2}';
 
@@ -71,71 +64,14 @@
 
 		$("#phoneCd").val('${dsUser.phoneCd}');
 
-		$("#postNum1").val(postNumArr[0]);
-		$("#postNum2").val(postNumArr[1]);
+		$("#postNum").val(postNum);
 
-		$("#address1").val(addressArr[0]);
-		$("#address2").val(addressArr[1]);
+		$("#address1").val('${dsUser.address1}');
+		$("#address2").val('${dsUser.address2}'); 
 
 		$("#pic").attr("src", '${context}/userImg/' + userImage);
 		$("#userImage").val(userImage);
 
-	}
-
-	function fn_setData(self){
-		var postAllData = self.children().text();
-
-		var postSplit = postAllData.split(" ");
-
-		var zipcode = postSplit[0].split("-");
-		var postNum1 = zipcode[0];
-		var postNum2 = zipcode[1];
-		var sido = postSplit[1];
-		var gugun = postSplit[2];
-		var dong = postSplit[3];
-		var subDong = postSplit[4];
-
-		if(subDong == null) subDong = "";
-
-		var detailAddress = sido + " " + gugun + " " + dong + " " + subDong;
-
-		$("#postNum1").val(postNum1);
-		$("#postNum2").val(postNum2);
-
-		$("#address1").val(detailAddress);
-
-	}
-
-	function fn_postCheck(){
-
-		$("#postBody").children().remove();
-
-		var aheadHtml = "<tr><td style='text-align: center;'><a onclick=javascript:fn_setData($(this))><b>";
-		var backHtml = "</b></a></td></tr>";
-		var appendHtml = "";
-		var param = {};
-
-
-		param["dong"] = dong;
-
-		$.ajax({
-   			url:"${context}/applicant/retrievePostByDong",
-			contentType:"application/json",
-			dataType:"json",
-			data:param,
-   			success:function(result){
-   				for(var i = 0; i < result.length; i++){
-   					appendHtml
-   					   += aheadHtml
-   					   + result[i].zipcode + " "
-					   + result[i].sido    + " "
-				       + result[i].gugun   + " "
-					   + result[i].dong    + " "
-					   + backHtml;
-   				}
-   					$("#postBody").append(appendHtml);
-   			}
-   		});
 	}
 
 	function fn_save(){
@@ -222,13 +158,13 @@
 		</div>
 	</div>
 	<div class="container">
-	<form id="joinFrm" method="post" action="${context}/work/user/updateUser" role="form">
+	<form id="joinFrm" method="post" action="${context}/user/updateUser" role="form">
 		<div class="form-horizontal">
 			<hr/>
 			<div class="form-group" style="margin-top: 5%;">
 				<label for="id" class="control-label col-md-2"><b>아이디</b></label>
 				<div class="col-md-4">
-					<input class="form-control" type="text" name="id" id="id" disabled="disabled" required="required" autofocus="autofocus" onkeyup="idCheck();"/>
+					<input class="form-control" type="text" name="id" id="id" required="required" autofocus="autofocus" onkeyup="idCheck();" readonly/>
 				</div>
 				<p id="message"></p>
 			</div>
@@ -236,7 +172,7 @@
 			<div class="form-group">
 				<label for="pw" class="control-label col-md-2"><b>비밀번호</b></label>
 				<div class="col-md-4">
-					<input class="form-control" type="password" name="pw" id="pw" disabled="disabled" required="required"/>
+					<input class="form-control" type="password" name="pw" id="pw" required="required" readOnly/>
 				</div>
 			</div>
 
@@ -279,9 +215,9 @@
 			</div>
 
 			<div class="form-group">
-				<label for="postnum1" class="control-label col-md-2"><b>주소</b></label>
+				<label for="postNum" class="control-label col-md-2"><b>주소</b></label>
 				<div class="col-md-2">
-					<input class="form-control" type="text" id="sample6_postcode" disabled="disabled" required="required"/>
+					<input class="form-control" type="text" id="sample6_postcode" required="required" readonly/>
 	     		</div>
 				<span class="col-md-1">
 					<button type="button" class="btn btn-info" data-toggle="modal" data-target="#searchPost" onclick="sample6_execDaumPostcode()"><b>주소검색</b></button>
@@ -291,7 +227,7 @@
 			<div class="form-group">
 				<label for="address1" class="control-label col-md-2"><b>상세주소</b></label>
 				<div class="col-md-6">
-					<input class="form-control" type="text" id="sample6_address" name="address1" disabled="disabled" required="required"/>
+					<input class="form-control" type="text" id="sample6_address" name="address1" required="required" readonly/>
 				</div>
 			</div>
 
@@ -311,7 +247,7 @@
 			<input type="hidden" id="flag" name="flag" value="false">
 		</div>
 	</form>
-		<form id="ajaxform" action="${context}/work/product/saveFile" method="post" enctype="multipart/form-data" role="form">
+		<form id="ajaxform" action="${context}/product/saveFile" method="post" enctype="multipart/form-data" role="form">
 		<div class="form-group">
 		<label class="control-label col-md-2"></label>
 			<div class="col-md-6">
