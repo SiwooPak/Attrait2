@@ -96,7 +96,8 @@ public class UserController {
 		session.setMaxInactiveInterval(-1); //���� ���Ѵ�
 		return "redirect:/product/goMain";
 	}
-
+	
+	// ID 찾기(이메일로)
 	@RequestMapping(value="/user/retrieveUserId", method=RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<Map<String, String>> retrieveUserId(HttpServletRequest request){
@@ -108,12 +109,12 @@ public class UserController {
 
 		if(id == null){
 			checkMsg = "<div class='col-md-5 col-md-offset-2'>"
-					+ "<p>�ش��ϴ� ID�� �������� �ʽ��ϴ�</p>"
+					+ "<p>사용가능한 ID</p>"
 					+ "</div>";
 		}else{
 			checkMsg = "<div class='col-md-5 col-md-offset-2'>"
-					+ "<p>ȸ������ ID�� <font color='red'><strong>" + id + "</strong></font>�Դϴ�."
-					+ " <a href='login.jsp'>�α��� �������� �̵�</a>|<a href='pwFind.jsp'>PWã��</a></p>"
+					+ "<p>ID는<font color='red'><strong>" + id + "</strong></font>입니다."
+					+ " <a href='login'>로그인 화면으로</a>|<a href='pwFind'>PW찾기</a></p>"
 					+ "</div>";
 		}
 
@@ -141,8 +142,8 @@ public class UserController {
 					+ "</div>";
 		}else{
 			checkMsg = "<div class='col-md-4 col-md-offset-2'>"
-					+ "<p>ȸ������ PW�� <font color='blue'><strong>" + pw + "</strong></font>�Դϴ�."
-					+ " <a href='login.jsp'>�α��� �������� �̵�</a></p>"
+					+ "<p>패스워드는&nbsp;<font color='blue'><strong>" + pw + "</strong></font>입니다."
+					+ " <a href='login.jsp'>로그인 화면으로</a></p>"
 					+ "</div>";
 		}
 
