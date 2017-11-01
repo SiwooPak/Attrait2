@@ -1,130 +1,166 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var ="context"><%=request.getContextPath()%></c:set>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="context"><%=request.getContextPath()%></c:set>
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<meta name="description" content="cartListR.jsp">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>문구점</title>
+<meta charset="UTF-8">
+<meta name="description" content="cartListR.jsp">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>문구점</title>
 
-	<link href="${context}/common/css/bootstrap.min.css" rel="stylesheet">
-	<link href="${context}/common/css/bootstrap-theme.css" rel="stylesheet">
-	<link href="${context}/common/css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
-	<link href="${context}/common/css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+<link href="${context}/common/css/bootstrap.min.css" rel="stylesheet">
+<link href="${context}/common/css/bootstrap-theme.css" rel="stylesheet">
+<link href="${context}/common/css/plugins/metisMenu/metisMenu.min.css"
+	rel="stylesheet">
+<link href="${context}/common/css/plugins/dataTables.bootstrap.css"
+	rel="stylesheet">
 
-    <link href="${context}/common/css/sb-admin-2.css" rel="stylesheet">
+<link href="${context}/common/css/sb-admin-2.css" rel="stylesheet">
 
-    <!-- Custom Fonts -->
-    <link href="${context}/common/font-awesome-4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-	<script src="${context}/common/js/jquery-1.9.1.js"></script>
-	<script src="${context}/common/js/bootstrap.min.js"></script>
+<!-- Custom Fonts -->
+<link
+	href="${context}/common/font-awesome-4.4.0/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css">
+<script src="${context}/common/js/jquery-1.9.1.js"></script>
+<script src="${context}/common/js/bootstrap.min.js"></script>
 
-    <script src="${context}/common/js/plugins/metisMenu/metisMenu.min.js"></script>
+<script src="${context}/common/js/plugins/metisMenu/metisMenu.min.js"></script>
 
-    <script src="${context}/common/js/plugins/dataTables/jquery.dataTables.js"></script>
-    <script src="${context}/common/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script
+	src="${context}/common/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script
+	src="${context}/common/js/plugins/dataTables/dataTables.bootstrap.js"></script>
 
-    <script src="${context}/common/js/sb-admin-2.js"></script>
+<script src="${context}/common/js/sb-admin-2.js"></script>
 
-    <script>
+<script>
 	var existFolder = '';
 	var imageFolder = '';
 	var path = '';
 
-    $(document).ready(function() {
-        $('#dataTables-example').dataTable();
+	$(document).ready(function() {
+		$('#dataTables-example').dataTable();
 
-    });
+	});
 
-    function fn_buy(paramCartCode, paramProductCode, paramSellPrice, paramSellCount){
-    	if(confirm("구매하시겠습니까?")){
-    		location.href = "${context}/sell/createSell?productCode=" + paramProductCode + "&sellPrice=" + paramSellPrice + "&sellCount=" + paramSellCount + "&cartCode=" + paramCartCode + "&fromCart=true";
-    	}
-    }
+	function fn_buy(paramCartCode, paramProductCode, paramSellPrice,
+			paramSellCount) {
+		if (confirm("구매하시겠습니까?")) {
+			location.href = "${context}/sell/createSell?productCode="
+					+ paramProductCode + "&sellPrice=" + paramSellPrice
+					+ "&sellCount=" + paramSellCount + "&cartCode="
+					+ paramCartCode + "&fromCart=true";
+		}
+	}
 
-    function fn_delete(paramCartCode, paramProductCode, paramSellCount){
-    	if(confirm("정말로 삭제하시겠습니까?")){
-	    	location.href = "${context}/cart/deleteCart?cartCode=" + paramCartCode + "&productCode=" + paramProductCode + "&productCount=" + paramSellCount;
-    	}
-    }
-
-    </script>
+	function fn_delete(paramCartCode, paramProductCode, paramSellCount) {
+		if (confirm("정말로 삭제하시겠습니까?")) {
+			location.href = "${context}/cart/deleteCart?cartCode="
+					+ paramCartCode + "&productCode=" + paramProductCode
+					+ "&productCount=" + paramSellCount;
+		}
+	}
+</script>
 </head>
 <body>
 	<div id="jumbotron" class="container">
-		<div class="jumbotron jumbotron-info" style="background-color: lightgray;">
-			<h1><font color="black"><strong>장바구니</strong>&nbsp;<span class="glyphicon glyphicon-shopping-cart"></span></font></h1>
-			<p>${sessionScope.id}님의 장바구니입니다.</p>
+		<div class="jumbotron jumbotron-info"
+			style="background-color: lightgray;">
+			<h1>
+				<font color="black"><strong>장바구니</strong>&nbsp;<span
+					class="glyphicon glyphicon-shopping-cart"></span></font>
+			</h1>
+			<p>${sessionScope.id}님의장바구니입니다.</p>
 		</div>
 
 		<div class="row">
 			<div class="col-md-12">
-			    <div class="panel panel-default">
-			        <!-- /.panel-heading -->
-			        <div class="panel-body">
-			            <div class="table-responsive">
-			                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-			                    <thead>
-			                        <tr>
-			                        	<th style="text-align: center; vertical-align: middle; width: 10px;">No</th>
-			                            <th style="text-align: center; vertical-align: middle; width: 20px;">상품이미지</th>
-			                            <th style="text-align: center; vertical-align: middle; width: 50px;">상품이름</th>
-			                            <th style="text-align: center; vertical-align: middle; width: 20px;">상품단가</th>
-			                            <th style="text-align: center; vertical-align: middle; width: 40px;">상품수량</th>
-			                            <th style="text-align: center; vertical-align: middle; width: 30px;">결제금액</th>
-			                            <th style="text-align: center; vertical-align: middle; width: 30px;">구매 / 삭제</th>
-			                        </tr>
-			                    </thead>
-			                    <tbody>
-			                    	<c:forEach items="${dsCartList}" var="dsCartList" varStatus="cartIdx">
-			                         <tr>
-			                         	<td style="text-align: center; vertical-align: middle;">${cartIdx.count}</td>
-			                            <td style="text-align: center; vertical-align: middle;">
-										<a href="${context}/product/retrieveProduct?productCode=${dsCartList.PRODUCT_CODE}">
-											<img name="image" width="110px" height="110px" src="${context}/binderImg/${dsCartList.PRODUCT_IMAGE}" class="img-thumbnail">
-										</a>
-											<script type="text/javascript">
-											 	var productCategoryCd = '${dsCartList.PRODUCT_CATEGORY_CD}';
+				<div class="panel panel-default">
+					<!-- /.panel-heading -->
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table class="table table-striped table-bordered table-hover"
+								id="dataTables-example">
+								<thead>
+									<tr>
+										<th
+											style="text-align: center; vertical-align: middle; width: 10px;">No</th>
+										<th
+											style="text-align: center; vertical-align: middle; width: 20px;">상품이미지</th>
+										<th
+											style="text-align: center; vertical-align: middle; width: 50px;">상품이름</th>
+										<th
+											style="text-align: center; vertical-align: middle; width: 20px;">상품단가</th>
+										<th
+											style="text-align: center; vertical-align: middle; width: 40px;">상품수량</th>
+										<th
+											style="text-align: center; vertical-align: middle; width: 30px;">결제금액</th>
+										<th
+											style="text-align: center; vertical-align: middle; width: 30px;">구매
+											/ 삭제</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach items="${dsCartList}" var="dsCartList"
+										varStatus="cartIdx">
+										<tr>
+											<td style="text-align: center; vertical-align: middle;">${cartIdx.count}</td>
+											<td style="text-align: center; vertical-align: middle;">
+												<a
+												href="${context}/product/retrieveProduct?productCode=${dsCartList.PRODUCT_CODE}">
+													<c:choose>
+														<c:when test="${dsCartList.PRODUCT_CATEGORY_CD eq 'B'}">
+															<img name="image" width="110px" height="110px"
+																src="${context}/binderImg/${dsCartList.PRODUCT_IMAGE}"
+																class="img-thumbnail">
+														</c:when>
+														<c:when test="${dsCartList.PRODUCT_CATEGORY_CD eq 'O'}">
+															<img name="image" width="110px" height="110px"
+																src="${context}/officeImg/${dsCartList.PRODUCT_IMAGE}"
+																class="img-thumbnail">
+														</c:when>
+														<c:when test="${dsCartList.PRODUCT_CATEGORY_CD eq 'S'}">
+															<img name="image" width="110px" height="110px"
+																src="${context}/storageImg/${dsCartList.PRODUCT_IMAGE}"
+																class="img-thumbnail">
+														</c:when>
+														<c:when test="${dsCartList.PRODUCT_CATEGORY_CD eq 'D'}">
+															<img name="image" width="110px" height="110px"
+																src="${context}/designImg/${dsCartList.PRODUCT_IMAGE}"
+																class="img-thumbnail">
+														</c:when>
+														<c:otherwise>
+															<img name="image" width="110px" height="110px"
+																src="${context}/penImg/${dsCartList.PRODUCT_IMAGE}"
+																class="img-thumbnail">
+														</c:otherwise>
+													</c:choose>
+											</a>
 
-											 	if(productCategoryCd == 'O'){
-													imageFolder = "officeImg";
-												}else if(productCategoryCd == 'P'){
-													imageFolder = "penImg";
-												}else if(productCategoryCd == 'S'){
-													imageFolder = "storageImg";
-												}else if(productCategoryCd == 'D'){
-													imageFolder = "designImg";
-												}else if(productCategoryCd == 'B'){
-													imageFolder = "binderImg";
-												}
-												path = $("img[name='image']").eq('${cartIdx.index}').attr("src");
-
-												existFolder = path.split("/")[2];
-												$("img[name='image']").eq('${cartIdx.index}').attr("src", path.replace(existFolder, imageFolder));
-											</script>
-			                            </td>
-			                            <td style="text-align: center; vertical-align: middle;">${dsCartList.PRODUCT_NAME}</td>
-			                            <td style="text-align: center; vertical-align: middle;">${dsCartList.PRODUCT_UNIT_PRICE}원</td>
-			                            <td style="text-align: center; vertical-align: middle;">${dsCartList.CART_COUNT}</td>
-			                            <td style="text-align: center; vertical-align: middle;">${dsCartList.CART_PRICE}원</td>
-			                            <td style="text-align: center; vertical-align: middle;">
-			                            	<button type="button" class="btn btn-primary" onclick="fn_buy('${dsCartList.CART_CODE}', '${dsCartList.PRODUCT_CODE}', '${dsCartList.CART_PRICE}', '${dsCartList.CART_COUNT}')">구매</button>
-			                            	<button type="button" class="btn btn-danger" onclick="fn_delete('${dsCartList.CART_CODE}', '${dsCartList.PRODUCT_CODE}', '${dsCartList.CART_COUNT}')">삭제</button>
-			                            </td>
-			                         </tr>
-			                        </c:forEach>
-			                    </tbody>
-			                </table>
-			            </div>
-			            <!-- /.table-responsive -->
-			        </div>
-			        <!-- /.panel-body -->
-			    </div>
-			    <!-- /.panel -->
+											</td>
+											<td style="text-align: center; vertical-align: middle;">${dsCartList.PRODUCT_NAME}</td>
+											<td style="text-align: center; vertical-align: middle;">${dsCartList.PRODUCT_UNIT_PRICE}원</td>
+											<td style="text-align: center; vertical-align: middle;">${dsCartList.CART_COUNT}</td>
+											<td style="text-align: center; vertical-align: middle;">${dsCartList.CART_PRICE}원</td>
+											<td style="text-align: center; vertical-align: middle;">
+												<button type="button" class="btn btn-primary"
+													onclick="fn_buy('${dsCartList.CART_CODE}', '${dsCartList.PRODUCT_CODE}', '${dsCartList.CART_PRICE}', '${dsCartList.CART_COUNT}')">구매</button>
+												<button type="button" class="btn btn-danger"
+													onclick="fn_delete('${dsCartList.CART_CODE}', '${dsCartList.PRODUCT_CODE}', '${dsCartList.CART_COUNT}')">삭제</button>
+											</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+						<!-- /.table-responsive -->
+					</div>
+					<!-- /.panel-body -->
+				</div>
+				<!-- /.panel -->
 			</div>
 			<!-- /.col-lg-12 -->
 		</div>

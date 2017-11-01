@@ -138,26 +138,7 @@
 			                            		<img name="image" width="110px" height="110px" src="${context}/penImg/${dsSellList.PRODUCT_IMAGE}" class="img-thumbnail">
 			                            	</c:otherwise>
 			                            </c:choose>
-										<!-- 
-											<script type="text/javascript">
-											 	var productCategoryCd = '${dsSellList.PRODUCT_CATEGORY_CD}';
-
-											 	if(productCategoryCd == 'O'){
-													imageFolder = "officeImg";
-												}else if(productCategoryCd == 'P'){
-													imageFolder = "penImg";
-												}else if(productCategoryCd == 'S'){
-													imageFolder = "storageImg";
-												}else if(productCategoryCd == 'D'){
-													imageFolder = "designImg";
-												}else if(productCategoryCd == 'B'){
-													imageFolder = "binderImg";
-												}
-												path = $("img[name='image']").eq('${dsProductIdx.index}').attr("src");
-
-												existFolder = path.split("/")[2];
-												$("img[name='image']").eq('${sellIdx.index}').attr("src", path.replace(existFolder, imageFolder));
-											</script> -->
+										
 			                            </td>
 			                            <td style="text-align: center; vertical-align: middle;">${dsSellList.PRODUCT_NAME}</td>
 			                            <td style="text-align: center; vertical-align: middle;">${dsSellList.PRODUCT_UNIT_PRICE}원</td>

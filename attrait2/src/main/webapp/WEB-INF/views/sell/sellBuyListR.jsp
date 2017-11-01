@@ -77,26 +77,24 @@
 			                         <tr>
 			                         	<td style="text-align: center; vertical-align: middle;">${buyIdx.count}</td>
 			                            <td style="text-align: center; vertical-align: middle;">
-										<img name="image" width="110px" height="110px" src="${context}/binderImg/${dsBuyList.PRODUCT_IMAGE}" class="img-thumbnail">
-											<script type="text/javascript">
-											 	var productCategoryCd = '${dsBuyList.PRODUCT_CATEGORY_CD}';
-
-											 	if(productCategoryCd == 'O'){
-													imageFolder = "officeImg";
-												}else if(productCategoryCd == 'P'){
-													imageFolder = "penImg";
-												}else if(productCategoryCd == 'S'){
-													imageFolder = "storageImg";
-												}else if(productCategoryCd == 'D'){
-													imageFolder = "designImg";
-												}else if(productCategoryCd == 'B'){
-													imageFolder = "binderImg";
-												}
-												path = $("img[name='image']").eq('${buyIdx.index}').attr("src");
-
-												existFolder = path.split("/")[2];
-												$("img[name='image']").eq('${buyIdx.index}').attr("src", path.replace(existFolder, imageFolder));
-											</script>
+										<c:choose>
+			                            	<c:when test="${dsBuyList.PRODUCT_CATEGORY_CD eq 'B'}">
+			                            		<img name="image" width="110px" height="110px" src="${context}/binderImg/${dsBuyList.PRODUCT_IMAGE}" class="img-thumbnail">
+			                            	</c:when>
+			                            	<c:when test="${dsBuyList.PRODUCT_CATEGORY_CD eq 'O'}">
+			                            		<img name="image" width="110px" height="110px" src="${context}/officeImg/${dsBuyList.PRODUCT_IMAGE}" class="img-thumbnail">
+			                            	</c:when>
+			                            	<c:when test="${dsBuyList.PRODUCT_CATEGORY_CD eq 'S'}">
+			                            		<img name="image" width="110px" height="110px" src="${context}/storageImg/${dsBuyList.PRODUCT_IMAGE}" class="img-thumbnail">
+			                            	</c:when>
+			                            	<c:when test="${dsBuyList.PRODUCT_CATEGORY_CD eq 'D'}">
+			                            		<img name="image" width="110px" height="110px" src="${context}/designImg/${dsBuyList.PRODUCT_IMAGE}" class="img-thumbnail">
+			                            	</c:when>
+			                            	<c:when test="${dsBuyList.PRODUCT_CATEGORY_CD eq 'P'}">
+			                            		<img name="image" width="110px" height="110px" src="${context}/penImg/${dsBuyList.PRODUCT_IMAGE}" class="img-thumbnail">
+			                            	</c:when>
+			                            </c:choose>
+										
 			                            </td>
 			                            <td style="text-align: center; vertical-align: middle;">${dsBuyList.PRODUCT_NAME}</td>
 			                            <td style="text-align: center; vertical-align: middle;">${dsBuyList.PRODUCT_UNIT_PRICE}원</td>
