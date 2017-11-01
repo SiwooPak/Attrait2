@@ -170,7 +170,7 @@
 		</div>
 	</form>
 
-	<form id="ajaxform" action="${context}/work/product/saveFile.do" method="post" enctype="multipart/form-data" role="form">
+	<form id="ajaxform" action="${context}/product/saveFile" method="post" enctype="multipart/form-data" role="form">
 		<div class="form-group">
 		<label class="control-label col-md-2"></label>
 			<div class="col-md-6">
