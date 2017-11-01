@@ -143,7 +143,7 @@ public class UserController {
 		}else{
 			checkMsg = "<div class='col-md-4 col-md-offset-2'>"
 					+ "<p>패스워드는&nbsp;<font color='blue'><strong>" + pw + "</strong></font>입니다."
-					+ " <a href='login.jsp'>로그인 화면으로</a></p>"
+					+ " <a href='login'>로그인 화면으로</a></p>"
 					+ "</div>";
 		}
 
