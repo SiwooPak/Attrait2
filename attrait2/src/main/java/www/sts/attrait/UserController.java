@@ -18,9 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
 import www.model.code.CodeDTO;
 import www.model.code.CodeService;
 import www.model.user.UserDTO;
@@ -51,7 +48,8 @@ public class UserController {
 
 		HttpHeaders resHeader = new HttpHeaders();
 		resHeader.add("Content-Type","text/html;charset=UTF-8");
-		ResponseEntity resultMsg = new ResponseEntity<String>(checkMsg, resHeader, HttpStatus.OK);
+		ResponseEntity<String> resultMsg = new ResponseEntity<String>(checkMsg, resHeader, HttpStatus.OK);
+		
 		return resultMsg;
 	}
 
@@ -122,7 +120,7 @@ public class UserController {
 
 		HttpHeaders resHeader = new HttpHeaders();
 		resHeader.add("Content-Type","text/html;charset=UTF-8");
-		ResponseEntity resultMsg = new ResponseEntity<Map<String, String>>(idMap, resHeader, HttpStatus.OK);
+		ResponseEntity<Map<String, String>> resultMsg = new ResponseEntity<Map<String, String>>(idMap, resHeader, HttpStatus.OK);
 		return resultMsg;
 	}
 
@@ -151,7 +149,7 @@ public class UserController {
 
 		HttpHeaders resHeader = new HttpHeaders();
 		resHeader.add("Content-Type","text/html;charset=UTF-8");
-		ResponseEntity resultMsg = new ResponseEntity<Map<String, String>>(idMap, resHeader, HttpStatus.OK);
+		ResponseEntity<Map<String, String>> resultMsg = new ResponseEntity<Map<String, String>>(idMap, resHeader, HttpStatus.OK);
 		return resultMsg;
 	}
 

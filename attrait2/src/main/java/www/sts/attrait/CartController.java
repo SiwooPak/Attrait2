@@ -7,13 +7,13 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import www.model.cart.CartService;
 import www.model.product.ProductService;
-import www.model.user.UserService;
 
 @Controller
 public class CartController {
@@ -23,10 +23,7 @@ public class CartController {
 	@Autowired
 	private CartService cartService;
 
-	@Autowired
-	private UserService userService;
-
-
+	@Transactional
 	@RequestMapping(value="/cart/createCart", method=RequestMethod.GET)
 	public ModelAndView createCart(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView();
@@ -47,7 +44,7 @@ public class CartController {
 		cartParam.put("cartPrice", cartPrice);
 		cartParam.put("cartCount", cartCount);
 
-		//Àå¹Ù±¸´Ï Å×ÀÌºí¿¡ ÀúÀå
+		//ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½
 		cartService.createCart(cartParam);
 
 		productParam.put("productCode", productCode);
@@ -61,7 +58,8 @@ public class CartController {
 
 		return mv;
 	}
-
+	
+	@Transactional
 	@RequestMapping(value="/cart/deleteCart", method=RequestMethod.GET)
 	public ModelAndView deleteCart(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView();

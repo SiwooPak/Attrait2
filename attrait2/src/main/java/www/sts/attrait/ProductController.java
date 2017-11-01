@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,25 +38,25 @@ public class ProductController {
 	@Autowired
 	private CodeService codeService;
 
+	@Transactional
 	@RequestMapping(value="/product/createProduct", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView createProduct(@ModelAttribute ProductDTO product, HttpServletRequest request){
-		List<CodeDTO> dsCode1 = null; //»óÇ°ºÐ·ù
-
+		List<CodeDTO> dsCode1 = null; 
 		ModelAndView mv = new ModelAndView();
 		Map<String, String> codeParam = new HashMap<String, String>();
 		Map<String, String> productParam = new HashMap<String, String>();
 
 		codeParam.put("commTyCd", "CODE0101");
-		dsCode1 = codeService.retrieveCodeList(codeParam); //»óÇ°ºÐ·ù
+		dsCode1 = codeService.retrieveCodeList(codeParam); 
 
 		mv.addObject("dsCode1", dsCode1);
 
-		String flag = product.getProductName(); //ProductBean Á¸Àç¿©ºÎ
+		String flag = product.getProductName(); //ProductBean ï¿½ï¿½ï¿½ç¿©ï¿½ï¿½
 
 		if(flag == null){
 			mv.setViewName("/stockmanage/stockRegisterC");
 		}else if(flag != null){
-			//Á¦Ç° »ý¼º
+			//ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½
 			productService.createProduct(product);
 
 			mv.addObject("dsProductList", productService.retrieveProductList(productParam));
@@ -65,22 +66,23 @@ public class ProductController {
 		return mv;
 	}
 
+	@Transactional
 	@RequestMapping(value="/product/updateProduct", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView updateProduct(@ModelAttribute ProductDTO product, HttpServletRequest request){
 		String productCode = null;
 		Map<String, String> dsProduct = null;
-		List<CodeDTO> dsCode1 = null; //ºÐ·ù
+		List<CodeDTO> dsCode1 = null; //ï¿½Ð·ï¿½
 
 		ModelAndView mv = new ModelAndView();
 		Map<String, String> codeParam = new HashMap<String, String>();
 		Map<String, String> productParam = new HashMap<String, String>();
 
 		codeParam.put("commTyCd", "CODE0101");
-		dsCode1 = codeService.retrieveCodeList(codeParam); //ºÐ·ù
+		dsCode1 = codeService.retrieveCodeList(codeParam); //ï¿½Ð·ï¿½
 
 		mv.addObject("dsCode1", dsCode1);
 
-		String flag = product.getProductName(); //ProductBean Á¸Àç¿©ºÎ
+		String flag = product.getProductName(); //ProductBean ï¿½ï¿½ï¿½ç¿©ï¿½ï¿½
 
 		if(flag == null){
 			HttpSession session = request.getSession();
@@ -96,7 +98,7 @@ public class ProductController {
 
 			mv.setViewName("/stockmanage/stockRegisterU");
 		}else if(flag != null){
-			//Á¦Ç° ¼öÁ¤
+			//ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½
 			productService.updateProduct(product);
 
 			mv.addObject("dsProductList", productService.retrieveProductList(productParam));
@@ -151,10 +153,11 @@ public class ProductController {
 	@ResponseBody
 	public String saveFile(HttpServletRequest request) throws IOException {
 		String imageFolder = request.getParameter("imageFolder");
-		String imgFolder ="\\" + imageFolder + "\\"; //ÀúÀåÇÒ °æ·Î
-		String realFolder = request.getRealPath("/") + imgFolder; //web-inf¹Ù·ÎÀü ±îÁö ÀúÀåÇÒ °æ·Î
+		String imgFolder ="\\" + imageFolder + "\\"; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+		@SuppressWarnings("deprecation")
+		String realFolder = request.getRealPath("/") + imgFolder; 
 		MultipartHttpServletRequest multipartRequest =  (MultipartHttpServletRequest)request;
-		MultipartFile file = multipartRequest.getFile("imageFile"); //´ÜÀÏ ÆÄÀÏ ¾÷·Îµå
+		MultipartFile file = multipartRequest.getFile("imageFile"); //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½
 		String filename = file.getOriginalFilename();
 
 		File ufile = new File(realFolder + file.getOriginalFilename());
@@ -163,6 +166,7 @@ public class ProductController {
 		return filename;
 	}
 
+    @Transactional		
 	@RequestMapping(value="/product/retrieveProduct", method=RequestMethod.GET)
 	public ModelAndView retrieveProduct(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView();

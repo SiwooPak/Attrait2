@@ -3,12 +3,12 @@ package www.sts.attrait;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,6 +26,7 @@ public class ReplyController {
 	@Autowired
 	private MarkService markService;
 
+	@Transactional	
 	@RequestMapping(value="/reply/createReply", method=RequestMethod.POST)
 	public ModelAndView createReply
 	(HttpServletRequest request){
@@ -45,7 +46,8 @@ public class ReplyController {
 		replyParam.put("userCode", userCode);
 		replyParam.put("productCode", productCode);
 		replyParam.put("userReply", userReply);
-
+		
+		//별점
 		if("N".equals(markYn)){
 			markParam.put("productCode", productCode);
 			markParam.put("userCode", userCode);
@@ -54,7 +56,7 @@ public class ReplyController {
 			markService.createMark(markParam);
 		}
 
-		//�뙎湲� �깮�꽦
+		//상품평 등록
 		replyService.createReply(replyParam);
 
 		mv.setViewName("redirect:/product/retrieveProduct?productCode=" + productCode);

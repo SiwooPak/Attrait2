@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,7 +18,6 @@ import com.google.gson.JsonObject;
 import www.model.cart.CartService;
 import www.model.product.ProductService;
 import www.model.sell.SellService;
-import www.model.user.UserService;
 
 @Controller
 public class SellController {
@@ -30,10 +30,7 @@ public class SellController {
 	@Autowired
 	private CartService cartService;
 
-	@Autowired
-	private UserService userService;
-
-
+	@Transactional
 	@RequestMapping(value="/sell/createSell", method=RequestMethod.GET)
 	public ModelAndView createSell(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView();
@@ -55,12 +52,11 @@ public class SellController {
 		sellParam.put("sellPrice", sellPrice);
 		sellParam.put("sellCount", sellCount);
 
-		//∆«∏≈≈◊¿Ã∫Ìø° ¿˙¿Â
+		//Ï£ºÎ¨∏ÌéòÏù¥ÏßÄÎ°ú Ïù¥Îèô
 		sellService.createSell(sellParam);
 
 		if(fromCart != null){
 			Map<String, String> cartParam = new HashMap<String, String>();
-			Map<String, String> productParam = new HashMap<String, String>();
 			sellParam = new HashMap<String, String>();
 
 			String cartCode = request.getParameter("cartCode");
@@ -81,6 +77,7 @@ public class SellController {
 		return mv;
 	}
 
+	@Transactional
 	@RequestMapping(value="/sell/updateFinalBuy", method=RequestMethod.GET)
 	public ModelAndView updateFinalBuy(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView();
