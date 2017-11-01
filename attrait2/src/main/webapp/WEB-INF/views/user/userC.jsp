@@ -27,7 +27,6 @@
     <script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
 	<script type="text/javascript">
 
-	var dong;
 	var imageFolder;
 
 	$(document).ready(function(){
@@ -207,7 +206,7 @@
 			<div class="form-group">
 				<label for="postnum1" class="control-label col-md-2"><b>주소</b></label>
 				<div class="col-md-2">
-					<input class="form-control" type="text" id="sample6_postcode" disabled="disabled" required="required"/>
+					<input class="form-control" type="text" id="sample6_postcode" required="required" readonly/>
 	     		</div>
 				<span class="col-md-1">
 					<button type="button" class="btn btn-info" data-toggle="modal" data-target="#searchPost" onclick="sample6_execDaumPostcode()"><b>주소검색</b></button>
@@ -218,7 +217,7 @@
 			<div class="form-group">
 				<label for="address1" class="control-label col-md-2"><b>상세주소</b></label>
 				<div class="col-md-6">
-					<input class="form-control" type="text" id="sample6_address" name="address1" disabled="disabled" required="required"/>
+					<input class="form-control" type="text" id="sample6_address" name="address1" required="required" readonly/>
 				</div>
 			</div>
 
